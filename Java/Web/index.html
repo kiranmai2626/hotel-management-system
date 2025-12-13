@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hotel Management System</title>
+    <style>
+        body { font-family: Arial; padding: 20px; }
+        button { margin: 5px; }
+        input { margin: 5px; }
+        .room { margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+    <h1>Hotel Management System</h1>
+
+    <div id="rooms"></div>
+
+    <h3>Book Room</h3>
+    <input type="number" id="roomNumber" placeholder="Room Number">
+    <input type="text" id="customerName" placeholder="Customer Name">
+    <button onclick="bookRoom()">Book</button>
+
+    <h3>Cancel Booking</h3>
+    <input type="number" id="cancelRoom" placeholder="Room Number">
+    <button onclick="cancelBooking()">Cancel</button>
+
+    <script>
+        let rooms = [
+            {number: 1, isBooked: false, customer: ''},
+            {number: 2, isBooked: false, customer: ''},
+            {number: 3, isBooked: false, customer: ''},
+            {number: 4, isBooked: false, customer: ''},
+            {number: 5, isBooked: false, customer: ''}
+        ];
+
+        function displayRooms() {
+            let div = document.getElementById("rooms");
+            div.innerHTML = "<h3>Available Rooms</h3>";
+            rooms.forEach(r => {
+                div.innerHTML += `<div class="room">Room ${r.number} - ${r.isBooked ? 'Booked by ' + r.customer : 'Available'}</div>`;
+            });
+        }
+
+        function bookRoom() {
+            let num = parseInt(document.getElementById("roomNumber").value);
+            let name = document.getElementById("customerName").value;
+            let room = rooms.find(r => r.number === num);
+            if (room && !room.isBooked) {
+                room.isBooked = true;
+                room.customer = name;
+                alert("Room booked successfully!");
+            } else {
+                alert("Room not available!");
+            }
+            displayRooms();
+        }
+
+        function cancelBooking() {
+            let num = parseInt(document.getElementById("cancelRoom").value);
+            let room = rooms.find(r => r.number === num);
+            if (room && room.isBooked) {
+                room.isBooked = false;
+                room.customer = '';
+                alert("Booking cancelled!");
+            } else {
+                alert("Room not booked!");
+            }
+            displayRooms();
+        }
+
+        displayRooms();
+    </script>
+</body>
+</html>
